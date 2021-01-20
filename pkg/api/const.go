@@ -459,13 +459,15 @@ const (
 	DefaultKubeProxyMode KubeProxyMode = KubeProxyModeIPTables
 	// DefaultWindowsSSHEnabled is the default windowsProfile.sshEnabled value
 	DefaultWindowsSSHEnabled = true
+	// DefaultWindowsContainerdURL is the URL for the default containerd package on Windows
+	DefaultWindowsContainerdURL = "https://mobyartifacts.azureedge.net/moby/moby-containerd/1.4.3+azure/windows/windows_amd64/moby-containerd-1.4.3+azure-1.amd64.zip"
 )
 
 // WindowsProfile defaults
 // TODO: Move other values defined in WindowsProfiles (like DefaultWindowsSSHEnabled) here.
 const (
 	DefaultWindowsCsiProxyVersion                   = "v0.2.2"
-	DefaultWindowsProvisioningScriptsPackageVersion = "v0.0.4"
+	DefaultWindowsProvisioningScriptsPackageVersion = "v0.0.9"
 )
 
 const (

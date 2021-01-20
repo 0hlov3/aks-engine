@@ -157,7 +157,7 @@ func Test_OrchestratorProfile_Validate(t *testing.T) {
 			properties: &Properties{
 				OrchestratorProfile: &OrchestratorProfile{
 					OrchestratorType:    "Kubernetes",
-					OrchestratorVersion: "1.18.13",
+					OrchestratorVersion: "1.18.15",
 					KubernetesConfig: &KubernetesConfig{
 						LoadBalancerSku:             BasicLoadBalancerSku,
 						ExcludeMasterFromStandardLB: to.BoolPtr(true),
@@ -171,7 +171,7 @@ func Test_OrchestratorProfile_Validate(t *testing.T) {
 			properties: &Properties{
 				OrchestratorProfile: &OrchestratorProfile{
 					OrchestratorType:    "Kubernetes",
-					OrchestratorVersion: "1.18.13",
+					OrchestratorVersion: "1.18.15",
 					KubernetesConfig: &KubernetesConfig{
 						LoadBalancerOutboundIPs: to.IntPtr(17),
 					},
@@ -342,8 +342,18 @@ func ExampleProperties_validateOrchestratorProfile() {
 		log.Error(err)
 	}
 
+	cs = getK8sDefaultContainerService(true)
+	cs.Properties.OrchestratorProfile.KubernetesConfig = &KubernetesConfig{
+		EnableEncryptionWithExternalKms: to.BoolPtr(true),
+		UseManagedIdentity:              to.BoolPtr(true),
+	}
+	if err := cs.Properties.ValidateOrchestratorProfile(false); err != nil {
+		log.Error(err)
+	}
+
 	// Output:
 	// level=warning msg="EtcdStorageLimitGB of 9 is larger than the recommended maximum of 8"
+	// level=warning msg="Clusters with enableEncryptionWithExternalKms=true and system-assigned identity are not upgradable! You will not be able to upgrade your cluster using `aks-engine upgrade`"
 }
 
 func Test_KubernetesConfig_Validate(t *testing.T) {
@@ -1738,20 +1748,6 @@ func TestProperties_ValidateContainerRuntime_Windows(t *testing.T) {
 			expectedErr: nil,
 		},
 		{
-			name: "ContainerD-AzureCNI-NoWindowsContainerdURL",
-			p: &Properties{
-				OrchestratorProfile: &OrchestratorProfile{
-					OrchestratorType: Kubernetes,
-					KubernetesConfig: &KubernetesConfig{
-						ContainerRuntime:     Containerd,
-						NetworkPlugin:        "Azure",
-						WindowsContainerdURL: "",
-					},
-				},
-			},
-			expectedErr: errors.Errorf("WindowsContainerdURL must be provided when using Windows with ContainerRuntime=containerd"),
-		},
-		{
 			name: "ContainerD-kubenet",
 			p: &Properties{
 				OrchestratorProfile: &OrchestratorProfile{
@@ -1765,20 +1761,6 @@ func TestProperties_ValidateContainerRuntime_Windows(t *testing.T) {
 				},
 			},
 			expectedErr: nil,
-		},
-		{
-			name: "ContainerD-kubenet-NoWindowsContainerdURL",
-			p: &Properties{
-				OrchestratorProfile: &OrchestratorProfile{
-					OrchestratorType: Kubernetes,
-					KubernetesConfig: &KubernetesConfig{
-						ContainerRuntime:     Containerd,
-						NetworkPlugin:        "kubenet",
-						WindowsContainerdURL: "",
-					},
-				},
-			},
-			expectedErr: errors.Errorf("WindowsContainerdURL must be provided when using Windows with ContainerRuntime=containerd"),
 		},
 		{
 			name: "ContainerD-kubenet-NoWindowsSdnPluginURL",
@@ -3432,7 +3414,7 @@ func ExampleProperties_validateMasterProfile() {
 	}
 	// Output:
 	// level=warning msg="Running only 1 control plane VM not recommended for production clusters, use 3 or 5 for control plane redundancy"
-	// level=warning msg="Clusters with VMSS masters are not yet upgradable! You will not be able to upgrade your cluster until a future version of aks-engine!"
+	// level=warning msg="Clusters with a VMSS control plane are not upgradable! You will not be able to upgrade your cluster using `aks-engine upgrade`"
 }
 
 func ExampleProperties_validateZones() {

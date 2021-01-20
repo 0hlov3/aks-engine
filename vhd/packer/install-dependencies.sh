@@ -346,7 +346,7 @@ for IP_MASQ_AGENT_VERSION in ${IP_MASQ_AGENT_VERSIONS}; do
     echo "  - ${CONTAINER_IMAGE}" >> ${VHD_LOGS_FILEPATH}
 done
 
-KMS_PLUGIN_VERSIONS="0.0.9"
+KMS_PLUGIN_VERSIONS="0.0.10"
 for KMS_PLUGIN_VERSION in ${KMS_PLUGIN_VERSIONS}; do
     CONTAINER_IMAGE="mcr.microsoft.com/k8s/kms/keyvault:v${KMS_PLUGIN_VERSION}"
     pullContainerImage "docker" ${CONTAINER_IMAGE}
@@ -369,13 +369,13 @@ echo "  - busybox" >> ${VHD_LOGS_FILEPATH}
 K8S_VERSIONS="
 1.20.1
 1.20.0
+1.19.7
 1.19.6
-1.19.5
+1.18.15
 1.18.14
-1.18.13
 1.18.10-azs
+1.17.17
 1.17.16
-1.17.13
 1.16.15
 1.16.14
 1.16.14-azs

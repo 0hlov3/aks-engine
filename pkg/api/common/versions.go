@@ -194,10 +194,11 @@ var AllKubernetesSupportedVersions = map[string]bool{
 	"1.17.10":        false, // replaced by 1.17.11 due to k8s release engineering issues
 	"1.17.11":        false,
 	"1.17.12":        false,
-	"1.17.13":        true,
+	"1.17.13":        false,
 	"1.17.14":        false, // disabled, see https://github.com/kubernetes/kubernetes/pull/96623
 	"1.17.15":        false, // replaced by 1.17.16 due to k8s release engineering issues
 	"1.17.16":        true,
+	"1.17.17":        true,
 	"1.18.0-alpha.1": false,
 	"1.18.0-alpha.2": false,
 	"1.18.0-alpha.3": false,
@@ -216,8 +217,9 @@ var AllKubernetesSupportedVersions = map[string]bool{
 	"1.18.10":        false,
 	"1.18.11":        false, // replaced by 1.18.12 due to k8s release engineering issues
 	"1.18.12":        false,
-	"1.18.13":        true,
+	"1.18.13":        false,
 	"1.18.14":        true,
+	"1.18.15":        true,
 	"1.19.0-alpha.1": false,
 	"1.19.0-alpha.2": false,
 	"1.19.0-alpha.3": false,
@@ -231,8 +233,9 @@ var AllKubernetesSupportedVersions = map[string]bool{
 	"1.19.2":         false,
 	"1.19.3":         false,
 	"1.19.4":         false,
-	"1.19.5":         true,
+	"1.19.5":         false,
 	"1.19.6":         true,
+	"1.19.7":         true,
 	"1.20.0-alpha.1": false,
 	"1.20.0-alpha.2": false,
 	"1.20.0-alpha.3": false,
